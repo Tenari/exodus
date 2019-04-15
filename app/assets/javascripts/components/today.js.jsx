@@ -2,7 +2,7 @@ var Today = createReactClass({
   render(){
     var day = this.props;
     var ps = [];
-    _.each(day.reading.split("\n"), function(p){
+    _.each((day.reading || "").split("\n"), function(p){
       ps.push(<p>{p}</p>);
     })
     return <div className="day-summary">

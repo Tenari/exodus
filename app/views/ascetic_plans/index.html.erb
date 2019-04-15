@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Ascetic Plans</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ascetic practice</th>
+      <th>Date</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ascetic_plans.each do |ascetic_plan| %>
+      <tr>
+        <td><%= ascetic_plan.ascetic_practice_id %></td>
+        <td><%= ascetic_plan.date %></td>
+        <td><%= link_to 'Show', ascetic_plan %></td>
+        <td><%= link_to 'Edit', edit_ascetic_plan_path(ascetic_plan) %></td>
+        <td><%= link_to 'Destroy', ascetic_plan, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ascetic Plan', new_ascetic_plan_path %>

@@ -1,0 +1,2 @@
+module AsceticPracticesHelper
+end

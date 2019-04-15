@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ascetic_practice_id: 1
+  date: 2019-04-15
+
+two:
+  ascetic_practice_id: 1
+  date: 2019-04-15

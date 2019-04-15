@@ -1,0 +1,27 @@
+<%= form_with(model: ascetic_plan, local: true) do |form| %>
+  <% if ascetic_plan.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ascetic_plan.errors.count, "error") %> prohibited this ascetic_plan from being saved:</h2>
+
+      <ul>
+      <% ascetic_plan.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :ascetic_practice_id %>
+    <%= form.number_field :ascetic_practice_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :date %>
+    <%= form.date_select :date %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

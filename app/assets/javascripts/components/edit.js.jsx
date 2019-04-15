@@ -21,12 +21,27 @@ var Edit = createReactClass({
       })
     });
   },
-  updatePlan(){
+  updatePlan(id){
+    var details = this.state.details;
+    if (details.practice_ids.includes(id)) {
+      details.practice_ids = _.reject(details.practice_ids, function(i){return i == id;})
+    } else {
+      details.practice_ids.push(id);
+    }
+    this.setState({details: details});
   },
   updateReading(e){
     var details = this.state.details;
     details.reading = $(e.currentTarget).val();
     this.setState({details: details});
+  },
+  tellServer(){
+    $.post('/reading/'+this.state.today, {text: this.state.details.reading}, function(response){
+      console.log(response);
+    })
+    $.post('/update_ascetic_plans', {date: this.state.today, ids: this.state.details.practice_ids}, function(response){
+      console.log(response);
+    })
   },
   render() {
     var that = this;
@@ -37,10 +52,11 @@ var Edit = createReactClass({
     var body = <div>
       <h3>Ascetic practices:</h3>
       {_.map(this.props.ascetic_practices, function(practice){
-        return <div key={practice.id}><input type="checkbox" checked={details.practice_ids.includes(practice.id)} onChange={updatePlan}/> {practice.description}</div>
+        return <div key={practice.id}><input type="checkbox" checked={details.practice_ids.includes(practice.id)} onChange={()=> updatePlan(practice.id)}/> {practice.description}</div>
       })}
       <h3>Reading</h3>
       <textarea value={details.reading} onChange={updateReading}/>
+      <button onClick={this.tellServer}>Save</button>
     </div>;
     if (this.state.busy) {
       body = <h1>Loading...</h1>;

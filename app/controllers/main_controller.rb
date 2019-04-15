@@ -1,16 +1,13 @@
 class MainController < ApplicationController
   def home
     today = Date.today
+    today_details = day_details(today)
     week = today.beginning_of_week
     @tabs = {
       today: {
         label: 'Today',
         component: 'Today',
-        props: {
-          dos: ['morning prayer', 'anchor checkin'],
-          donts: ['mortal sin'],
-          reading: Reading.where(date: today).first,
-        }
+        props: today_details,
       },
       week: {
         label: 'This week',
@@ -20,21 +17,12 @@ class MainController < ApplicationController
           week: week
         }
       },
-      calendar: {
-        label: 'Calendar',
-        component: 'Today',
-        props: {
-          dos: ['morning prayer'],
-          donts: ['fapping'],
-          reading: 'blah blah blah',
-        }
-      },
       edit: {
         label: 'Edit content',
         component: 'Edit',
         props: {
           today: today,
-          details: day_details(today),
+          details: today_details,
           ascetic_practices: AsceticPractice.all.to_a,
         }
       },
@@ -45,6 +33,22 @@ class MainController < ApplicationController
   def details
     current = Date.parse(params[:date])
     return render json: day_details(current)
+  end
+
+  def update_reading
+    date = Date.parse(params[:date])
+    reading = Reading.where(date: date).first_or_create
+    reading.update(text: params[:text])
+    return render json: {status: :ok}
+  end
+
+  def update_ascetic_plans
+    AsceticPlan.where(date: params[:date]).destroy_all
+    if params[:ids]
+      params[:ids].each do |id|
+        AsceticPlan.create(ascetic_practice_id: id, date: params[:date])
+      end
+    end
   end
 
   private

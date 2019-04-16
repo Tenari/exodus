@@ -7,7 +7,6 @@ class MainController < ApplicationController
       today: {
         label: 'Today',
         component: 'Today',
-        props: today_details,
       },
       week: {
         label: 'This week',
